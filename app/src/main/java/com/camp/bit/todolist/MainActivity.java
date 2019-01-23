@@ -168,11 +168,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateNode(Note note) {
         // 更新数据
-        String title = "myNewTitle";
         ContentValues values = new ContentValues();
-        values.put(TodoContract.TodoEntry.COLUMNS_CONTENT,title);
-        String selection = TodoContract.TodoEntry.COLUMNS_CONTENT +" like?";
-        String[] selectionArgs = {"myOldTitle"};
+        String selection = TodoContract.TodoEntry._ID +" like?";
+        String[] selectionArgs = {""+note.id};
+        values.put(TodoContract.TodoEntry.COLUMNS_STATE,note.getState().intValue);
+        int count =database.update(
+                TodoContract.TodoEntry.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs
+        );
+
+        notesAdapter.refresh(loadNotesFromDatabase());
+
     }
 
 }
